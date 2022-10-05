@@ -3,7 +3,7 @@ function getRandom(min, max) {
 }
 getRandom(1, 10);
 function checkLengthString(str, strLength) {
-  if (str.length <= strLength) {return true;}
+  return str.length <= strLength;
 }
 checkLengthString('12', 10);
 
