@@ -41,5 +41,4 @@ function createPhoto() {
     comments: getRandom(0, 200)
   };
 }
-const publicPhotos = Array.from({ length: COUNT_CREATE_PHOTO }, createPhoto);
-publicPhotos();
+Array.from({ length: COUNT_CREATE_PHOTO }, createPhoto);
