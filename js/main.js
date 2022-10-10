@@ -5,15 +5,13 @@ function getRandom(min, max) {
 function checkLengthString(str, strLength) {
   return str.length <= strLength;
 }
-checkLengthString();
-function setId(arr, min, max) {
-  for (let i = 0; i < max; i++) {
-    arr[i].id = min;
-    arr[i].url = `photos/${min}.jpg`;
-    min++;
-  }
-  return arr;
+checkLengthString(1, 2);
+function getNumber(arr) {
+  const arrElement = arr[0];
+  arr.splice(0, 1);
+  return arrElement;
 }
+const ARRAY_NUMBER = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25];
 const ARRAY_DECRIPTION = [
   'Иван',
   'Хуан Себастьян',
@@ -32,14 +30,16 @@ const ARRAY_DECRIPTION = [
   'Нионго',
   'Ирвинг'
 ];
-
 const getRandomArrayElement = (elements) => elements[getRandom(0, elements.length - 1)];
-const createPhoto = () => ({
-  id: '',
-  url: '',
-  description: `${getRandomArrayElement(ARRAY_DECRIPTION)}`,
-  likes: getRandom(15, 200),
-  comments: getRandom(0, 200)
-});
+function createPhoto() {
+  const numberID = getNumber(ARRAY_NUMBER);
+  return {
+    id: numberID,
+    url: `photos/${numberID}.jpg`,
+    description: `${getRandomArrayElement(ARRAY_DECRIPTION)}`,
+    likes: getRandom(15, 200),
+    comments: getRandom(0, 200)
+  };
+}
 const publicPhotos = Array.from({ length: COUNT_CREATE_PHOTO }, createPhoto);
-setId(publicPhotos, 1, COUNT_CREATE_PHOTO);
+publicPhotos();
