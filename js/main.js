@@ -1,2 +1,1 @@
-import { createPhotos } from './data.js';
-createPhotos();
+import './create-picture.js';
