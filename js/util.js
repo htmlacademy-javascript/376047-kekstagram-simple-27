@@ -12,3 +12,6 @@ function getNumber(arr) {
 checkLengthString(1, 2);
 const getRandomArrayElement = (elements) => elements[getRandom(0, elements.length - 1)];
 export { getRandom, getRandomArrayElement, getNumber };
+function isEscapeKey(evt) { return evt.key === 'Escape'; }
+function isEnterKey(evt) { return evt.key === 'Enter'; }
+export { isEscapeKey, isEnterKey };
