@@ -9,7 +9,7 @@ const getData = (onSuccess) => {
     });
 };
 const sendData = (onSuccess, body) => {
-  fetch('https://27.javascript.pages.academ/kekstagram-simple',
+  fetch('https://27.javascript.pages.academy/kekstagram-simple',
     {
       method: 'POST',
       body,
