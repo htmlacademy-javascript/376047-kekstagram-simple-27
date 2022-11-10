@@ -4,6 +4,7 @@ import { deleteFilterSlider } from './slider-filter.js';
 const settingModalOpenImage = document.querySelector('#upload-file');
 const settingModalCloseImage = document.querySelector('#upload-cancel');
 const settingModalImage = document.querySelector('.img-upload__overlay');
+const settingModalDescription = document.querySelector('.text__description');
 
 /*Функция закрытие формы по esc*/
 function onPopupEscKeydown(evt) {
@@ -21,17 +22,18 @@ function onPopupEnterKeydown(evt) {
 function openModalImage() {
   settingModalImage.classList.remove('hidden');
   document.body.classList.add('modal-open');
-  document.addEventListener('keydown', onPopupEscKeydown);
+  settingModalCloseImage.addEventListener('keydown', onPopupEscKeydown);
   settingModalCloseImage.addEventListener('keydown', onPopupEnterKeydown);
 }
 /*Функция закрытия модального окна*/
 function closeModalImage() {
   settingModalImage.classList.add('hidden');
   document.body.classList.remove('modal-open');
-  document.removeEventListener('keydown', onPopupEscKeydown);
-  settingModalCloseImage.removeEventListener('keydown', onPopupEnterKeydown);
+  settingModalDescription.value = '';
   onResetChangeImage();
   deleteFilterSlider();
+  settingModalCloseImage.removeEventListener('keydown', onPopupEscKeydown);
+  settingModalCloseImage.removeEventListener('keydown', onPopupEnterKeydown);
 }
 settingModalOpenImage.addEventListener('click', () => {
   openModalImage();
@@ -39,3 +41,5 @@ settingModalOpenImage.addEventListener('click', () => {
 settingModalCloseImage.addEventListener('click', () => {
   closeModalImage();
 });
+
+export { openModalImage, closeModalImage };
