@@ -14,4 +14,5 @@ const getRandomArrayElement = (elements) => elements[getRandom(0, elements.lengt
 export { getRandom, getRandomArrayElement, getNumber };
 function isEscapeKey(evt) { return evt.key === 'Escape'; }
 function isEnterKey(evt) { return evt.key === 'Enter'; }
+
 export { isEscapeKey, isEnterKey };

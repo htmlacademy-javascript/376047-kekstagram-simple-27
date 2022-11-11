@@ -1,6 +1,5 @@
+import { effectImg } from './change-image.js';
 const sliderElement = document.querySelector('.effect-level__slider');
-const settingImagePreview = document.querySelector('.img-upload__preview');
-const effectImg = settingImagePreview.querySelector('img');
 const inputSliderHidden = document.querySelector('.effect-level__value');
 
 /*Функция удаление слайдера в модальном окне*/
@@ -8,6 +7,7 @@ function deleteFilterSlider() {
   if (sliderElement.classList.contains('noUi-target')) {
     sliderElement.noUiSlider.destroy();
     effectImg.style.filter = 'none';
+    document.querySelector('#effect-none').checked = true;
   }
 }
 /*Функция создание слайдера в модальном окне*/
@@ -23,8 +23,8 @@ function createFilterSlider() {
 }
 /*Функция изменение слайдера в модальном окне*/
 function changeFilterSlider(evt) {
-  effectImg.className = evt.target.classList[1];
-  if (evt.target.classList[1] === 'effects__preview--chrome' || evt.target.classList[1] === 'effects__preview--sepia') {
+  const { target } = evt;
+  if (target.classList[1] === 'effects__preview--chrome' || target.classList[1] === 'effects__preview--sepia') {
     sliderElement.noUiSlider.updateOptions({
       range: {
         min: 0,
@@ -33,13 +33,13 @@ function changeFilterSlider(evt) {
       start: 1,
       step: 0.1,
     });
-    const filterStyle = window.getComputedStyle(evt.target, null).getPropertyValue('filter');
+    const filterStyle = window.getComputedStyle(target, null).getPropertyValue('filter');
     sliderElement.noUiSlider.on('update', () => {
       effectImg.style.filter = `${filterStyle.slice(0, -3)}(${Number(sliderElement.noUiSlider.get())})`;
       inputSliderHidden.setAttribute('value', Number(sliderElement.noUiSlider.get()));
     });
   }
-  else if (evt.target.classList[1] === 'effects__preview--marvin') {
+  else if (target.classList[1] === 'effects__preview--marvin') {
     sliderElement.noUiSlider.updateOptions({
       range: {
         min: 0,
@@ -48,13 +48,13 @@ function changeFilterSlider(evt) {
       start: 100,
       step: 1,
     });
-    const filterStyle = window.getComputedStyle(evt.target, null).getPropertyValue('filter');
+    const filterStyle = window.getComputedStyle(target, null).getPropertyValue('filter');
     sliderElement.noUiSlider.on('update', () => {
       effectImg.style.filter = `${filterStyle.slice(0, -3)}(${Number(sliderElement.noUiSlider.get())}%)`;
       inputSliderHidden.setAttribute('value', Number(sliderElement.noUiSlider.get()));
     });
   }
-  else if (evt.target.classList[1] === 'effects__preview--phobos') {
+  else if (target.classList[1] === 'effects__preview--phobos') {
     sliderElement.noUiSlider.updateOptions({
       range: {
         min: 0,
@@ -63,13 +63,13 @@ function changeFilterSlider(evt) {
       start: 3,
       step: 0.1,
     });
-    const filterStyle = window.getComputedStyle(evt.target, null).getPropertyValue('filter');
+    const filterStyle = window.getComputedStyle(target, null).getPropertyValue('filter');
     sliderElement.noUiSlider.on('update', () => {
       effectImg.style.filter = `${filterStyle.slice(0, -5)}(${Number(sliderElement.noUiSlider.get()).toFixed(1)}px)`;
       inputSliderHidden.setAttribute('value', Number(sliderElement.noUiSlider.get()).toFixed(1));
     });
   }
-  else if (evt.target.classList[1] === 'effects__preview--heat') {
+  else if (target.classList[1] === 'effects__preview--heat') {
     sliderElement.noUiSlider.updateOptions({
       range: {
         min: 1,
@@ -79,13 +79,13 @@ function changeFilterSlider(evt) {
       step: 0.1,
       connect: 'lower'
     });
-    const filterStyle = window.getComputedStyle(evt.target, null).getPropertyValue('filter');
+    const filterStyle = window.getComputedStyle(target, null).getPropertyValue('filter');
     sliderElement.noUiSlider.on('update', () => {
       effectImg.style.filter = `${filterStyle.slice(0, -3)}(${Number(sliderElement.noUiSlider.get()).toFixed(1)})`;
       inputSliderHidden.setAttribute('value', Number(sliderElement.noUiSlider.get()).toFixed(1));
     });
   }
-  else if (evt.target.classList[1] === 'effects__preview--none') {
+  else if (target.classList[1] === 'effects__preview--none') {
     deleteFilterSlider();
   }
 }

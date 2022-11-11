@@ -1,5 +1,7 @@
 import { createFilterSlider, changeFilterSlider, sliderElement } from './slider-filter.js';
+
 const settingImagePreview = document.querySelector('.img-upload__preview');
+const effectImg = settingImagePreview.querySelector('img');
 const settingImageScale = document.querySelector('.img-upload__scale');
 const settingModalControlValue = document.querySelector('.scale__control--value');
 const settingImageEffect = document.querySelector('.img-upload__effects');
@@ -11,7 +13,8 @@ function onResetChangeImage() {
 }
 /*Функция изменение размера картинки*/
 function onChangeSizeImage(evt, value) {
-  if (evt.target.classList.contains('scale__control--bigger') && value < 100) {
+  const { target } = evt;
+  if (target.classList.contains('scale__control--bigger') && value < 100) {
     value += 25;
     if (value === 100) {
       settingImagePreview.style.transform = 'scale(1)';
@@ -20,7 +23,7 @@ function onChangeSizeImage(evt, value) {
       settingImagePreview.style.transform = `scale(0.${value})`;
     }
   }
-  else if (evt.target.classList.contains('scale__control--smaller') && value > 25) {
+  else if (target.classList.contains('scale__control--smaller') && value > 25) {
     value -= 25;
     settingImagePreview.style.transform = `scale(0.${value})`;
   }
@@ -28,15 +31,15 @@ function onChangeSizeImage(evt, value) {
 }
 /*Фунцкия получение значение размера картинки в модальном окне*/
 function getModalControlValue(value) {
-  if (value.indexOf('%')) {
-    return value.slice(0, -1);
-  }
+  return (value.includes('%')) ? value.slice(0, -1) : value;
 }
 settingImageScale.addEventListener('click', (evt) => {
   settingModalControlValue.setAttribute('value', `${onChangeSizeImage(evt, Number(getModalControlValue(settingModalControlValue.value)))}%`);
 });
 settingImageEffect.addEventListener('click', (evt) => {
-  if (evt.target.closest('.effects__label')) {
+  const { target } = evt;
+  if (target.closest('.effects__label')) {
+    effectImg.className = target.classList[1];
     if (!sliderElement.classList.contains('noUi-target')) {
       createFilterSlider();
     }
@@ -44,4 +47,4 @@ settingImageEffect.addEventListener('click', (evt) => {
   }
 });
 
-export { onResetChangeImage, onChangeSizeImage };
+export { onResetChangeImage, effectImg };
