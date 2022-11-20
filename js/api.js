@@ -1,15 +1,19 @@
-import { showError } from './user-form.js';
-const getData = (onSuccess) => {
-  fetch('https://27.javascript.pages.academy/kekstagram-simple/data')
+import { showError, createErrorGetData } from './user-form.js';
+const GET_DATA = 'https://27.javascript.pages.academy/kekstagram-simple/data';
+const POST_DATA = 'https://27.javascript.pages.academy/kekstagram-simple';
+/*Отправка данных get запросом*/
+function getData(onSuccess) {
+  fetch(GET_DATA)
     .then((Response) => Response.json())
     .then((image) => {
       onSuccess(image);
     }).catch(() => {
-      showError();
+      createErrorGetData();
     });
-};
-const sendData = (onSuccess, body) => {
-  fetch('https://27.javascript.pages.academy/kekstagram-simple',
+}
+/*Отправка данных post запросом*/
+function postData(onSuccess, body) {
+  fetch(POST_DATA,
     {
       method: 'POST',
       body,
@@ -24,5 +28,5 @@ const sendData = (onSuccess, body) => {
     .catch(() => {
       showError();
     });
-};
-export { sendData, getData };
+}
+export { postData, getData };
