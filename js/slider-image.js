@@ -1,0 +1,128 @@
+import { modalImage } from './change-image.js';
+const sliderEffect = document.querySelector('.effect-level');
+const sliderEffectElement = sliderEffect.querySelector('.effect-level__slider');
+const sliderInputHidden = sliderEffect.querySelector('.effect-level__value');
+const PART_COUNT_THREE = -3;
+const PART_COUNT_FIVE = -5;
+sliderEffect.style.display = 'none';
+
+/*Добавление события клик на изображения*/
+function onCLickImageUpload(evt) {
+  const { target } = evt;
+  if (target.closest('.effects__label')) {
+    modalImage.className = evt.target.classList[1];
+    if (!sliderEffectElement.classList.contains('noUi-target')) {
+      createSliderEffect();
+    }
+    changeSliderEffect(evt);
+  }
+}
+
+/* Удаление слайдера в модальном окне*/
+function deleteSliderEffect() {
+  if (sliderEffectElement.classList.contains('noUi-target')) {
+    sliderEffectElement.noUiSlider.destroy();
+    modalImage.style.filter = 'none';
+    document.querySelector('#effect-none').checked = true;
+    sliderEffect.style.display = 'none';
+  }
+}
+/* Создание слайдера в модальном окне*/
+function createSliderEffect() {
+  noUiSlider.create(sliderEffectElement, {
+    range: {
+      min: 0,
+      max: 1,
+    },
+    start: 1,
+    step: 0.1,
+  });
+}
+/* Изменение слайдера в модальном окне*/
+function changeSliderEffect(evt) {
+  const { target } = evt;
+  sliderEffect.style.display = 'block';
+  const filterStyle = window.getComputedStyle(target, null).getPropertyValue('filter');
+  switch (target.classList[1]) {
+    case 'effects__preview--chrome':
+      sliderEffectElement.noUiSlider.updateOptions({
+        range: {
+          min: 0,
+          max: 1,
+        },
+        start: 1,
+        step: 0.1,
+      });
+
+      sliderEffectElement.noUiSlider.on('update', () => {
+        modalImage.style.filter = `${filterStyle.slice(0, PART_COUNT_THREE)}(${Number(sliderEffectElement.noUiSlider.get())})`;
+        sliderInputHidden.setAttribute('value', Number(sliderEffectElement.noUiSlider.get()));
+      });
+      break;
+    case 'effects__preview--sepia':
+      sliderEffectElement.noUiSlider.updateOptions({
+        range: {
+          min: 0,
+          max: 1,
+        },
+        start: 1,
+        step: 0.1,
+      });
+
+      sliderEffectElement.noUiSlider.on('update', () => {
+        modalImage.style.filter = `${filterStyle.slice(0, PART_COUNT_THREE)}(${Number(sliderEffectElement.noUiSlider.get())})`;
+        sliderInputHidden.setAttribute('value', Number(sliderEffectElement.noUiSlider.get()));
+      });
+      break;
+    case 'effects__preview--marvin':
+      sliderEffectElement.noUiSlider.updateOptions({
+        range: {
+          min: 0,
+          max: 100,
+        },
+        start: 100,
+        step: 1,
+      });
+
+      sliderEffectElement.noUiSlider.on('update', () => {
+        modalImage.style.filter = `${filterStyle.slice(0, PART_COUNT_THREE)}(${Number(sliderEffectElement.noUiSlider.get())}%)`;
+        sliderInputHidden.setAttribute('value', Number(sliderEffectElement.noUiSlider.get()));
+      });
+      break;
+    case 'effects__preview--phobos':
+      sliderEffectElement.noUiSlider.updateOptions({
+        range: {
+          min: 0,
+          max: 3,
+        },
+        start: 3,
+        step: 0.1,
+      });
+
+      sliderEffectElement.noUiSlider.on('update', () => {
+        modalImage.style.filter = `${filterStyle.slice(0, PART_COUNT_FIVE)}(${Number(sliderEffectElement.noUiSlider.get()).toFixed(1)}px)`;
+        sliderInputHidden.setAttribute('value', Number(sliderEffectElement.noUiSlider.get()).toFixed(1));
+      });
+      break;
+    case 'effects__preview--heat':
+      sliderEffectElement.noUiSlider.updateOptions({
+        range: {
+          min: 1,
+          max: 3,
+        },
+        start: 3,
+        step: 0.1,
+        connect: 'lower'
+      });
+      sliderEffectElement.noUiSlider.on('update', () => {
+        modalImage.style.filter = `${filterStyle.slice(0, PART_COUNT_THREE)}(${Number(sliderEffectElement.noUiSlider.get()).toFixed(1)})`;
+        sliderInputHidden.setAttribute('value', Number(sliderEffectElement.noUiSlider.get()).toFixed(1));
+      });
+      break;
+    default:
+      deleteSliderEffect();
+      break;
+  }
+}
+
+export { deleteSliderEffect, onCLickImageUpload };
