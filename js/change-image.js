@@ -1,11 +1,13 @@
-const MAX_VALUE = 100;
-const MIN_VALUE = 25;
+const SCALE = {
+  MAX: 100,
+  MIN: 25,
+  STEP: 25
+};
 const modalImagePreview = document.querySelector('.img-upload__preview');
 const modalImage = modalImagePreview.querySelector('img');
 const modalImageScale = document.querySelector('.img-upload__scale');
 const modalControlValue = document.querySelector('.scale__control--value');
 const modalImageDefaultSrc = modalImage.src;
-
 /*Возвращение по умолчанию*/
 const onResetChangeImage = () => {
   modalControlValue.setAttribute('value', '100%');
@@ -22,8 +24,8 @@ const onClickModalControlValue = () => {
 const сhangeSizeImage = (evt, scaleValue) => {
   const { target } = evt;
   if (target.classList.contains('scale__control--bigger')) {
-    scaleValue = Math.min(scaleValue + MIN_VALUE, MAX_VALUE);
-    if (scaleValue === MAX_VALUE) {
+    scaleValue = Math.min(scaleValue + SCALE.STEP, SCALE.MAX);
+    if (scaleValue === SCALE.MAX) {
       modalImage.style.transform = 'scale(1)';
     }
     else {
@@ -31,7 +33,7 @@ const сhangeSizeImage = (evt, scaleValue) => {
     }
   }
   else if (target.classList.contains('scale__control--smaller')) {
-    scaleValue = Math.max(scaleValue - MIN_VALUE, MIN_VALUE);
+    scaleValue = Math.max(scaleValue - SCALE.STEP, SCALE.MIN);
     modalImage.style.transform = `scale(0.${scaleValue})`;
   }
   return scaleValue;
