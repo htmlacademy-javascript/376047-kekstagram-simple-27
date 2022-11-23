@@ -1,44 +1,46 @@
+const SCALE = {
+  MAX: 100,
+  MIN: 25,
+  STEP: 25
+};
 const modalImagePreview = document.querySelector('.img-upload__preview');
 const modalImage = modalImagePreview.querySelector('img');
 const modalImageScale = document.querySelector('.img-upload__scale');
 const modalControlValue = document.querySelector('.scale__control--value');
 const modalImageDefaultSrc = modalImage.src;
-const MAX_VALUE = 100;
-const MIN_VALUE = 25;
 /*Возвращение по умолчанию*/
-function onResetChangeImage() {
+const onResetChangeImage = () => {
   modalControlValue.setAttribute('value', '100%');
   modalImage.style.transform = 'scale(1)';
   modalImage.removeAttribute('class');
   modalImageScale.removeEventListener('click', changeModalControlValue);
   modalImage.src = modalImageDefaultSrc;
-}
+};
 /*Добавление клика*/
-function onClickModalControlValue() {
+const onClickModalControlValue = () => {
   modalImageScale.addEventListener('click', changeModalControlValue);
-}
+};
 /*Изменение размера картинки*/
-function сhangeSizeImage(evt, value) {
+const сhangeSizeImage = (evt, scaleValue) => {
   const { target } = evt;
-  if (target.classList.contains('scale__control--bigger') && value < MAX_VALUE) {
-    value += MIN_VALUE;
-    if (value === MAX_VALUE) {
+  if (target.classList.contains('scale__control--bigger')) {
+    scaleValue = Math.min(scaleValue + SCALE.STEP, SCALE.MAX);
+    if (scaleValue === SCALE.MAX) {
       modalImage.style.transform = 'scale(1)';
     }
     else {
-      modalImage.style.transform = `scale(0.${value})`;
+      modalImage.style.transform = `scale(0.${scaleValue})`;
     }
   }
-  else if (target.classList.contains('scale__control--smaller') && value > MIN_VALUE) {
-    value -= MIN_VALUE;
-    modalImage.style.transform = `scale(0.${value})`;
+  else if (target.classList.contains('scale__control--smaller')) {
+    scaleValue = Math.max(scaleValue - SCALE.STEP, SCALE.MIN);
+    modalImage.style.transform = `scale(0.${scaleValue})`;
   }
-  return value;
-}
+  return scaleValue;
+};
 /*Получение значение размера картинки в модальном окне*/
-function getModalControlValue(value) {
-  return (value.includes('%')) ? value.slice(0, -1) : value;
-}
+const getModalControlValue = (scaleValue) => (scaleValue.includes('%')) ? scaleValue.slice(0, -1) : scaleValue;
+
 /*Изменение значения размера картинки в модальном окне*/
 function changeModalControlValue(evt) {
   modalControlValue.setAttribute('value', `${сhangeSizeImage(evt, Number(getModalControlValue(modalControlValue.value)))}%`);
