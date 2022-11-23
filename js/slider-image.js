@@ -1,34 +1,22 @@
 import { modalImage } from './change-image.js';
+const PART_COUNT_THREE = -3;
+const PART_COUNT_FIVE = -5;
 const sliderEffect = document.querySelector('.effect-level');
 const sliderEffectElement = sliderEffect.querySelector('.effect-level__slider');
 const sliderInputHidden = sliderEffect.querySelector('.effect-level__value');
-const PART_COUNT_THREE = -3;
-const PART_COUNT_FIVE = -5;
 sliderEffect.style.display = 'none';
 
-/*Добавление события клик на изображения*/
-function onCLickImageUpload(evt) {
-  const { target } = evt;
-  if (target.closest('.effects__label')) {
-    modalImage.className = evt.target.classList[1];
-    if (!sliderEffectElement.classList.contains('noUi-target')) {
-      createSliderEffect();
-    }
-    changeSliderEffect(evt);
-  }
-}
-
 /* Удаление слайдера в модальном окне*/
-function deleteSliderEffect() {
+const deleteSliderEffect = () => {
   if (sliderEffectElement.classList.contains('noUi-target')) {
     sliderEffectElement.noUiSlider.destroy();
     modalImage.style.filter = 'none';
     document.querySelector('#effect-none').checked = true;
     sliderEffect.style.display = 'none';
   }
-}
+};
 /* Создание слайдера в модальном окне*/
-function createSliderEffect() {
+const createSliderEffect = () => {
   noUiSlider.create(sliderEffectElement, {
     range: {
       min: 0,
@@ -37,9 +25,9 @@ function createSliderEffect() {
     start: 1,
     step: 0.1,
   });
-}
+};
 /* Изменение слайдера в модальном окне*/
-function changeSliderEffect(evt) {
+const changeSliderEffect = (evt) => {
   const { target } = evt;
   sliderEffect.style.display = 'block';
   const filterStyle = window.getComputedStyle(target, null).getPropertyValue('filter');
@@ -53,7 +41,6 @@ function changeSliderEffect(evt) {
         start: 1,
         step: 0.1,
       });
-
       sliderEffectElement.noUiSlider.on('update', () => {
         modalImage.style.filter = `${filterStyle.slice(0, PART_COUNT_THREE)}(${Number(sliderEffectElement.noUiSlider.get())})`;
         sliderInputHidden.setAttribute('value', Number(sliderEffectElement.noUiSlider.get()));
@@ -123,6 +110,16 @@ function changeSliderEffect(evt) {
       deleteSliderEffect();
       break;
   }
-}
-
+};
+/*Добавление события клик на изображения*/
+const onCLickImageUpload = (evt) => {
+  const { target } = evt;
+  if (target.closest('.effects__label')) {
+    modalImage.className = evt.target.classList[1];
+    if (!sliderEffectElement.classList.contains('noUi-target')) {
+      createSliderEffect();
+    }
+    changeSliderEffect(evt);
+  }
+};
 export { deleteSliderEffect, onCLickImageUpload };

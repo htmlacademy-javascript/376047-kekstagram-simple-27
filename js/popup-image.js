@@ -10,19 +10,19 @@ const modalDescription = modalImageUpload.querySelector('.text__description');
 const imageUploadEffect = document.querySelector('.img-upload__effects');
 
 /*Закрытие формы по esc*/
-function onPopupEscKeydown(evt) {
+const onPopupEscKeydown = (evt) => {
   if (isEscapeKey(evt)) {
     closeModalImage();
   }
-}
+};
 /*Открытие формы по клику*/
-function onPopupClickOpen() {
+const onPopupClickOpen = () => {
   openModalImage();
-}
+};
 /*Закрытия формы по клику*/
-function onPopupClickClose() {
+const onPopupClickClose = () => {
   closeModalImage();
-}
+};
 /*Открытие модального окна*/
 function openModalImage() {
   modalImageUpload.classList.remove('hidden');

@@ -6,9 +6,17 @@ const uploadFormSubmitButton = uploadFormImage.querySelector('#upload-submit');
 const errorTemplate = document.querySelector('#error').content.querySelector('.error');
 const successTemplate = document.querySelector('#success').content.querySelector('.success');
 
-
+/*Удаление окна с ошибкой при загрузки фотографий*/
+const removeErrorGetData = (evt) => {
+  const { target } = evt;
+  if (target.classList.value === 'error' || isEscapeKey(evt)) {
+    document.querySelector('.error').remove();
+    window.removeEventListener('click', removeErrorGetData);
+    window.removeEventListener('keydown', removeErrorGetData);
+  }
+};
 /*Создание окна с ошибкой при получение фотографий */
-function createErrorGetData() {
+const createErrorGetData = () => {
   const errorTemplateGetData = document.createElement('section');
   const errorWrapperGetData = document.createElement('div');
   const errorTitleGetData = document.createElement('h2');
@@ -21,19 +29,18 @@ function createErrorGetData() {
   document.body.append(errorTemplateGetData);
   window.addEventListener('click', removeErrorGetData);
   window.addEventListener('keydown', removeErrorGetData);
-}
-/*Удаление окна с ошибкой при загрузки фотографий*/
-function removeErrorGetData(evt) {
-  const { target } = evt;
-  if (target.classList.value === 'error' || isEscapeKey(evt)) {
-    document.querySelector('.error').remove();
-    window.removeEventListener('click', removeErrorGetData);
-    window.removeEventListener('keydown', removeErrorGetData);
+};
+/*Удаление окна с ошибкой при отправки формы*/
+const removeError = (evt) => {
+  if (isEscapeKey(evt) || evt.target.classList.value === 'error' || evt.target.classList.value === 'error__button') {
+    document.querySelector('.error__button').removeEventListener('click', removeError);
+    window.removeEventListener('keydown', removeError);
+    window.removeEventListener('click', removeError);
     document.querySelector('.error').remove();
   }
-}
+};
 /*Показ окна с ошибкой при отправки формы*/
-function showError() {
+const showError = () => {
   const errorFragment = document.createDocumentFragment();
   const showErrorFragment = errorTemplate.cloneNode(true);
   errorFragment.appendChild(showErrorFragment);
@@ -42,27 +49,19 @@ function showError() {
   window.addEventListener('keydown', removeError);
   window.addEventListener('click', removeError);
   uploadFormSubmitButton.disabled = false;
-}
-/*Удаление окна с ошибкой при отправки формы*/
-function removeError(evt) {
-  if (isEscapeKey(evt) || evt.target.classList.value === 'error' || evt.target.classList.value === 'error__button') {
-    document.querySelector('.error__button').removeEventListener('click', removeError);
-    window.removeEventListener('keydown', removeError);
-    window.removeEventListener('click', removeError);
-    document.querySelector('.error').remove();
-  }
-}
+};
+
 /*Удаление окна при успешной отправки формы*/
-function removeSuccess(evt) {
+const removeSuccess = (evt) => {
   if (isEscapeKey(evt) || evt.target.classList.value === 'success' || evt.target.classList.value === 'success__button') {
     document.querySelector('.success__button').removeEventListener('click', removeSuccess);
     window.removeEventListener('keydown', removeSuccess);
     window.removeEventListener('click', removeSuccess);
     document.querySelector('.success').remove();
   }
-}
+};
 /*Показ окна при успешной отправки формы*/
-function showSuccess() {
+const showSuccess = () => {
   const successFragment = document.createDocumentFragment();
   const showSuccessrFragment = successTemplate.cloneNode(true);
   successFragment.appendChild(showSuccessrFragment);
@@ -71,16 +70,9 @@ function showSuccess() {
   window.addEventListener('keydown', removeSuccess);
   window.addEventListener('click', removeSuccess);
   uploadFormSubmitButton.disabled = false;
-}
-function setSubmit() {
-  uploadFormImage.addEventListener('submit', setUserFormSubmit);
-}
-function removeSubmit() {
-  uploadFormImage.removeEventListener('submit', setUserFormSubmit);
-}
-
+};
 /*Отправка формы*/
-function setUserFormSubmit(evt) {
+const setUserFormSubmit = (evt) => {
   evt.preventDefault();
   uploadFormSubmitButton.disabled = true;
   postData(() => {
@@ -88,5 +80,11 @@ function setUserFormSubmit(evt) {
     showSuccess();
   }, new FormData(evt.target)
   );
-}
+};
+const setSubmit = () => {
+  uploadFormImage.addEventListener('submit', setUserFormSubmit);
+};
+const removeSubmit = () => {
+  uploadFormImage.removeEventListener('submit', setUserFormSubmit);
+};
 export { setUserFormSubmit, showError, createErrorGetData, setSubmit, removeSubmit };
